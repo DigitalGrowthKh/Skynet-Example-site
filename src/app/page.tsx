@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { FeedImage } from "@/components/ui/feed-image";
 import { PlaceholderImage } from "@/components/ui/placeholder-image";
 import {
   credibilityStats,
@@ -33,25 +34,25 @@ const serviceIcons: Record<string, string> = {
 
 const instagramPreviewPosts = [
   {
-    image: placeholderAssets.pageHeroDomestic,
+    image: "/instagram-1.jpg",
     alt: "Courier handoff at customer location",
     caption: "Domestic deliveries moving smoothly across key UK routes this week.",
     meta: "Operations update",
   },
   {
-    image: placeholderAssets.pageHeroInternational,
+    image: "/instagram-2.jpg",
     alt: "International shipping lanes map",
     caption: "Cross-border shipments supported by our global gateway network.",
     meta: "International",
   },
   {
-    image: placeholderAssets.pageHeroServices,
+    image: "/instagram-3.jpg",
     alt: "Business shipment intake and dispatch",
     caption: "From quote to collection, our teams keep business shipping practical and reliable.",
     meta: "Customer service",
   },
   {
-    image: placeholderAssets.pageHeroSpecialised,
+    image: "/instagram-4.jpg",
     alt: "Specialised logistics handling workflow",
     caption: "Specialised handling for sensitive consignments with clear communication at every step.",
     meta: "Specialised",
@@ -229,9 +230,9 @@ export default function Home() {
             {instagramPreviewPosts.map((post) => (
               <article key={post.caption} className="instagram-card group">
                 <div className="instagram-media">
-                  <PlaceholderImage
+                  <FeedImage
                     src={post.image}
-                    fallbackSrc={placeholderAssets.fallback}
+                    fallbackSrc={placeholderAssets.pageHeroServices}
                     alt={post.alt}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
