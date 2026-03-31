@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { FeedImage } from "@/components/ui/feed-image";
+import { SocialProofSection } from "@/components/sections/social-proof-section";
 import { PlaceholderImage } from "@/components/ui/placeholder-image";
 import {
   credibilityStats,
@@ -31,33 +31,6 @@ const serviceIcons: Record<string, string> = {
   ecommerce: "EC",
   specialised: "SP",
 };
-
-const instagramPreviewPosts = [
-  {
-    image: "/instagram-1.jpg",
-    alt: "Courier handoff at customer location",
-    caption: "Domestic deliveries moving smoothly across key UK routes this week.",
-    meta: "Operations update",
-  },
-  {
-    image: "/instagram-2.jpg",
-    alt: "International shipping lanes map",
-    caption: "Cross-border shipments supported by our global gateway network.",
-    meta: "International",
-  },
-  {
-    image: "/instagram-3.jpg",
-    alt: "Business shipment intake and dispatch",
-    caption: "From quote to collection, our teams keep business shipping practical and reliable.",
-    meta: "Customer service",
-  },
-  {
-    image: "/instagram-4.jpg",
-    alt: "Specialised logistics handling workflow",
-    caption: "Specialised handling for sensitive consignments with clear communication at every step.",
-    meta: "Specialised",
-  },
-];
 
 export default function Home() {
   return (
@@ -216,48 +189,7 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="section-grey py-14 sm:py-16 lg:py-20">
-        <Container>
-          <div className="section-header-block">
-            <Badge>Latest from Instagram</Badge>
-            <h2 className="section-title">A quick look at recent moments from the SkyNet community.</h2>
-            <p className="max-w-3xl text-[var(--text-muted)]">
-              Service updates, team highlights, and delivery stories that keep our network moving.
-            </p>
-          </div>
-
-          <div className="instagram-grid">
-            {instagramPreviewPosts.map((post) => (
-              <article key={post.caption} className="instagram-card group">
-                <div className="instagram-media">
-                  <FeedImage
-                    src={post.image}
-                    fallbackSrc={placeholderAssets.pageHeroServices}
-                    alt={post.alt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                    className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                  />
-                </div>
-                <div className="instagram-body">
-                  <p className="instagram-meta">{post.meta}</p>
-                  <p className="instagram-caption">{post.caption}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <div className="mt-6">
-            <Button
-              href="https://www.instagram.com/skynetsouthafrica/"
-              variant="ghost"
-              className="home-ghost-btn"
-            >
-              View on Instagram
-            </Button>
-          </div>
-        </Container>
-      </section>
+      <SocialProofSection />
 
       <section className="section-light py-14 sm:py-16 lg:py-20">
         <Container>

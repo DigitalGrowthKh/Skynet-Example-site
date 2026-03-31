@@ -301,48 +301,6 @@ body {
   gap: 1rem;
 }
 
-.instagram-grid {
-  display: grid;
-  gap: 1rem;
-}
-
-.instagram-card {
-  border: 1px solid var(--border-subtle);
-  border-radius: 1rem;
-  overflow: hidden;
-  background: #ffffff;
-  box-shadow: 0 14px 24px -22px rgba(8, 16, 26, 0.28);
-  transition: border-color 180ms ease, box-shadow 180ms ease;
-}
-
-.instagram-card:hover {
-  border-color: rgba(196, 18, 47, 0.3);
-  box-shadow: 0 18px 32px -24px rgba(196, 18, 47, 0.22);
-}
-
-.instagram-media {
-  position: relative;
-  min-height: 190px;
-}
-
-.instagram-body {
-  padding: 0.9rem 1rem 1rem;
-}
-
-.instagram-meta {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-  color: var(--brand-red);
-}
-
-.instagram-caption {
-  margin-top: 0.45rem;
-  font-size: 0.9rem;
-  line-height: 1.45;
-  color: var(--text-muted);
-}
 
 .network-left,
 .network-right {
@@ -621,10 +579,6 @@ body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .instagram-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .leadership-grid-premium {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -643,10 +597,6 @@ body {
 
   .network-stage {
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  }
-
-  .instagram-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .cta-command {
