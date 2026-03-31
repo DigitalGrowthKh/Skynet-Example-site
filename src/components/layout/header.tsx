@@ -36,7 +36,7 @@ export function Header() {
       <Container>
         <div className="header-line"></div>
         <div className="relative flex h-20 items-center justify-between gap-3 lg:gap-6">
-          <Link href="/" className="group inline-flex min-w-0 flex-1 items-center gap-2 sm:gap-3 lg:flex-none lg:gap-4">
+          <Link href="/" className="group inline-flex min-w-0 items-center gap-2 sm:gap-3 lg:gap-4">
             <span className="relative h-10 w-[124px] shrink-0 sm:h-11 sm:w-[152px] lg:h-12 lg:w-[176px]">
               <PlaceholderImage
                 src="/skynet-website-logo.webp"
@@ -48,7 +48,7 @@ export function Header() {
                 priority
               />
             </span>
-            <span className="min-w-0 max-w-[46vw] sm:max-w-none">
+            <span className="hidden min-w-0 md:block">
               <span className="block truncate text-xs font-semibold uppercase tracking-[0.15em] text-[var(--text-main)] transition-colors duration-200 group-hover:text-[var(--brand-red)] sm:text-sm sm:tracking-[0.2em]">
                 {siteMetadata.brandName}
               </span>
@@ -112,7 +112,7 @@ export function Header() {
                 onClick={() => setMobileMenuOpen(false)}
               />
               <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-[80] md:hidden">
-                <div className="rounded-xl border border-[var(--border-subtle)] bg-white p-4 shadow-[0_20px_38px_-24px_rgba(16,24,40,0.65)]">
+                <div className="max-h-[calc(100vh-7rem)] overflow-y-auto rounded-xl border border-[var(--border-subtle)] bg-white p-4 shadow-[0_20px_38px_-24px_rgba(16,24,40,0.65)]">
                   <nav className="flex flex-col gap-2" aria-label="Mobile navigation">
                     {navItems.map((item) => (
                       <Link
@@ -128,6 +128,14 @@ export function Header() {
 
                   <div className="mt-4 grid grid-cols-1 gap-2">
                     <Button
+                      href="/track"
+                      variant="ghost"
+                      size="sm"
+                      className="w-full justify-center whitespace-normal px-3 text-center leading-tight"
+                    >
+                      Track Package
+                    </Button>
+                    <Button
                       href="/open-account"
                       variant="primary"
                       size="sm"
@@ -136,12 +144,20 @@ export function Header() {
                       Open an Account
                     </Button>
                     <Button
-                      href="/track"
+                      href="/create-shipment"
+                      variant="secondary"
+                      size="sm"
+                      className="w-full justify-center whitespace-normal px-3 text-center leading-tight"
+                    >
+                      Create a Shipment
+                    </Button>
+                    <Button
+                      href="/services"
                       variant="ghost"
                       size="sm"
                       className="w-full justify-center whitespace-normal px-3 text-center leading-tight"
                     >
-                      Track
+                      Explore Services
                     </Button>
                   </div>
                 </div>

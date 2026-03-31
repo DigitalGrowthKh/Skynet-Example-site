@@ -48,16 +48,14 @@ export default function Home() {
                 priority
               />
               <div className="hero-overlay" />
-              <div className="hero-gridlines" aria-hidden="true" />
-              <div className="hero-routes" aria-hidden="true" />
             </div>
 
             <div className="hero-content-wrap">
               <div className="hero-main animate-enter" style={{ animationDelay: "50ms" }}>
-                <Badge className="border-white/35 bg-white/10 text-white">{heroContent.eyebrow}</Badge>
-                <h1 className="hero-heading">Delivering enterprise shipping at global scale.</h1>
+                <Badge>{heroContent.eyebrow}</Badge>
+                <h1 className="hero-heading">Trusted courier services for everyday business shipping.</h1>
                 <p className="hero-copy">
-                  Trusted UK operations. International reach. Built for business-critical logistics.
+                  Reliable UK operations, international reach, and practical support to keep your deliveries moving.
                 </p>
 
                 <div className="hero-cta-row">
@@ -67,20 +65,19 @@ export default function Home() {
                   <Button href={heroContent.primaryAction.href} variant="secondary">
                     Open an Account
                   </Button>
-                  <Button href={heroContent.secondaryAction.href} variant="ghost" className="hero-ghost-btn">
+                  <Button href={heroContent.secondaryAction.href} variant="ghost" className="hero-ghost-btn home-ghost-btn">
                     Create a Shipment
                   </Button>
                 </div>
               </div>
 
               <aside className="hero-control-panel animate-enter" style={{ animationDelay: "120ms" }}>
-                <p className="hero-panel-label">Quick Controls</p>
+                <p className="hero-panel-label">Quick Actions</p>
                 <div className="hero-action-grid">
                   {heroQuickActions.map((action) => (
                     <a key={action.title} href={action.href} className="lux-action-card group">
-                      <p className="text-sm font-semibold text-white">{action.title}</p>
-                      <p className="mt-1 text-xs text-white/75">{action.detail}</p>
-                      <span className="lux-action-dot" />
+                      <p className="text-sm font-semibold text-[var(--text-main)]">{action.title}</p>
+                      <p className="mt-1 text-xs text-[var(--text-muted)]">{action.detail}</p>
                     </a>
                   ))}
                 </div>
@@ -115,7 +112,6 @@ export default function Home() {
                     />
                     <div className="service-super-overlay" />
                     <span className="service-super-icon">{badgeText}</span>
-                    <span className="image-tag image-tag-dark">{imageSrc}</span>
                   </div>
                   <div className="service-super-body">
                     <p className="service-kicker">{service.category}</p>
@@ -131,12 +127,15 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="section-dark py-14 sm:py-16 lg:py-20">
+      <section className="section-light py-14 sm:py-16 lg:py-20">
         <Container>
           <div className="network-stage">
             <div className="network-left">
-              <Badge className="border-white/30 bg-white/10 text-white">Global Network</Badge>
-              <h2 className="section-title text-white">Scale you can see. Coverage you can trust.</h2>
+              <Badge>Network and Coverage</Badge>
+              <h2 className="section-title">Coverage you can trust, from local routes to global lanes.</h2>
+              <p className="max-w-2xl text-[var(--text-muted)]">
+                SkyNet combines strong UK operations with established international gateways, helping businesses ship with confidence.
+              </p>
 
               <div className="network-map-frame">
                 <PlaceholderImage
@@ -148,37 +147,36 @@ export default function Home() {
                   className="object-cover opacity-85"
                 />
                 <div className="network-map-overlay" />
-                <span className="image-tag image-tag-dark">{placeholderAssets.networkMap}</span>
               </div>
             </div>
 
             <div className="network-right">
-              <div className="stats-grid-bold">
-                {credibilityStats.map((stat) => (
-                  <article key={stat.label} className="stat-card stat-card-spotlight">
-                    <p className="stat-value">{stat.value}</p>
-                    <p className="stat-label">{stat.label}</p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {credibilityStats.slice(0, 2).map((stat) => (
+                  <article key={stat.label} className="premium-card p-5">
+                    <p className="text-2xl font-semibold tracking-[-0.02em] text-[var(--text-main)]">{stat.value}</p>
+                    <p className="mt-1 text-sm text-[var(--text-muted)]">{stat.label}</p>
                   </article>
                 ))}
               </div>
 
-              <div className="network-chip-panels">
-                <article className="premium-card premium-card-dark p-5">
-                  <p className="panel-label">UK Hubs</p>
-                  <div className="mt-3 flex flex-wrap gap-2">
+              <div className="grid gap-3">
+                <article className="premium-card p-5">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--brand-red)]">UK Hubs</p>
+                  <div className="mt-3 flex flex-wrap gap-2.5">
                     {networkRegionalHubs.ukHubs.map((hub) => (
-                      <span key={hub} className="hub-chip hub-chip-dark">
+                      <span key={hub} className="hub-chip">
                         {hub}
                       </span>
                     ))}
                   </div>
                 </article>
 
-                <article className="premium-card premium-card-dark p-5">
-                  <p className="panel-label">Global Gateways</p>
-                  <div className="mt-3 flex flex-wrap gap-2">
+                <article className="premium-card p-5">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--brand-red)]">Global Gateways</p>
+                  <div className="mt-3 flex flex-wrap gap-2.5">
                     {networkRegionalHubs.globalGateways.map((hub) => (
-                      <span key={hub} className="hub-chip hub-chip-dark">
+                      <span key={hub} className="hub-chip">
                         {hub}
                       </span>
                     ))}
@@ -210,7 +208,6 @@ export default function Home() {
                     className="leader-portrait transition-transform duration-500 group-hover:scale-[1.02]"
                   />
                   <div className="leader-overlay" />
-                  <span className="image-tag image-tag-dark">{`/${profile.image}`}</span>
                 </div>
                 <div className="leader-body">
                   <p className="leader-name">{profile.name}</p>
@@ -223,11 +220,11 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="section-red py-14 sm:py-16 lg:py-20">
+      <section className="section-light py-14 sm:py-16 lg:py-20">
         <Container>
-          <div className="cta-command section-divider">
+          <div className="cta-command home-cta section-divider">
             <div>
-              <p className="cta-kicker">Move with confidence</p>
+              <p className="cta-kicker">Ready to ship?</p>
               <h2 className="cta-title">{finalCta.title}</h2>
             </div>
             <div className="cta-command-actions">
@@ -237,10 +234,10 @@ export default function Home() {
               <Button href={finalCta.primaryAction.href} variant="secondary">
                 Open an Account
               </Button>
-              <Button href={heroContent.secondaryAction.href} variant="ghost" className="hero-ghost-btn">
+              <Button href={heroContent.secondaryAction.href} variant="ghost" className="hero-ghost-btn home-ghost-btn">
                 Create a Shipment
               </Button>
-              <Button href="/services" variant="ghost" className="hero-ghost-btn">
+              <Button href="/services" variant="ghost" className="hero-ghost-btn home-ghost-btn">
                 Explore Services
               </Button>
             </div>
