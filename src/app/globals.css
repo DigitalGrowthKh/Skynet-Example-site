@@ -453,6 +453,45 @@ body {
   line-height: 1.55;
 }
 
+/* ── Leadership Carousel ── */
+.leader-card-carousel {
+  border-radius: 1rem;
+  overflow: clip;
+  border: 1px solid rgba(16, 22, 32, 0.16);
+  background: #ffffff;
+  box-shadow: 0 16px 30px -26px rgba(8, 16, 26, 0.3);
+}
+
+.leader-media-carousel {
+  position: relative;
+  min-height: 240px;
+  background: linear-gradient(180deg, #f9fafc 0%, #e9edf3 100%);
+}
+
+.leader-body-carousel {
+  padding: 0.9rem 0.95rem 1rem;
+}
+
+.leader-name-carousel {
+  font-size: 1.05rem;
+  font-weight: 640;
+  letter-spacing: -0.01em;
+  color: var(--text-main);
+}
+
+.leader-role-carousel {
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.leader-bio-carousel {
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
 .cta-command {
   border-radius: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.36);

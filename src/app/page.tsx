@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { SocialProofSection } from "@/components/sections/social-proof-section";
+import { LeadershipCarousel } from "@/components/sections/leadership-carousel";
 import { PlaceholderImage } from "@/components/ui/placeholder-image";
 import {
   credibilityStats,
@@ -198,28 +199,7 @@ export default function Home() {
             <h2 className="section-title">Leadership driving operational excellence</h2>
           </div>
 
-          <div className="leadership-grid-premium">
-            {leadershipPreview.profiles.map((profile) => (
-              <article key={profile.name} className="leader-card-premium group">
-                <div className="leader-media-premium">
-                  <PlaceholderImage
-                    src={`/${profile.image}`}
-                    fallbackSrc={placeholderAssets.fallback}
-                    alt={profile.name}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 33vw"
-                    className="leader-portrait transition-transform duration-500 group-hover:scale-[1.02]"
-                  />
-                  <div className="leader-overlay" />
-                </div>
-                <div className="leader-body">
-                  <p className="leader-name">{profile.name}</p>
-                  <p className="leader-role">{profile.role}</p>
-                  <p className="leader-bio">{profile.bio}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+          <LeadershipCarousel profiles={leadershipPreview.profiles} />
         </Container>
       </section>
 
