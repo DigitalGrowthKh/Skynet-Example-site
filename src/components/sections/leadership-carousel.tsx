@@ -118,7 +118,7 @@ export function LeadershipCarousel({ profiles }: LeadershipCarouselProps) {
                     fallbackSrc={placeholderAssets.fallback}
                     alt={profile.name}
                     fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 48vw, 32vw"
                     className="leader-portrait transition-transform duration-500 group-hover:scale-[1.02]"
                   />
                   <div className="leader-overlay" />

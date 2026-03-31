@@ -47,7 +47,6 @@ export default function Home() {
                 fill
                 sizes="100vw"
                 className="object-cover"
-                priority
               />
               <div className="hero-overlay" />
             </div>
@@ -89,7 +88,7 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="section-grey py-14 sm:py-16 lg:py-20">
+      <section className="section-grey py-10 sm:py-12 lg:py-16">
         <Container>
           <div className="section-header-block">
             <Badge>Services</Badge>
@@ -129,7 +128,7 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="section-light py-14 sm:py-16 lg:py-20">
+      <section className="section-light py-10 sm:py-12 lg:py-16">
         <Container>
           <div className="network-stage">
             <div className="network-left">
@@ -192,7 +191,7 @@ export default function Home() {
 
       <SocialProofSection />
 
-      <section className="section-light py-14 sm:py-16 lg:py-20">
+      <section className="section-light py-10 sm:py-12 lg:py-16">
         <Container>
           <div className="section-header-block">
             <Badge>Leadership</Badge>
@@ -203,7 +202,7 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="section-light py-14 sm:py-16 lg:py-20">
+      <section className="section-light py-10 sm:py-12 lg:py-16">
         <Container>
           <div className="cta-command home-cta section-divider">
             <div>

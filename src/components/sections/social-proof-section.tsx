@@ -14,7 +14,7 @@ const facebookPostUrls = [
 
 export function SocialProofSection() {
   return (
-    <section className="section-grey py-14 sm:py-16 lg:py-20">
+    <section className="section-grey py-10 sm:py-12 lg:py-16">
       <Container>
         <div className="section-header-block">
           <Badge>Follow SkyNet</Badge>
@@ -69,21 +69,17 @@ export function SocialProofSection() {
               Follow SkyNet UK on Instagram
             </h3>
             <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">
-              Visit the real profile directly on Instagram for current posts, updates, and brand activity.
+              Visit our Instagram profile for real-time updates, brand stories, and industry insights from the SkyNet team.
             </p>
 
-            <div className="mt-5 rounded-xl border border-[var(--border-subtle)] bg-white px-4 py-4 shadow-[0_12px_24px_-22px_rgba(8,16,26,0.28)]">
+            <div className="mt-6 pt-6 border-t border-[var(--border-subtle)]">
               <p className="text-sm font-semibold text-[var(--text-main)]">@skynet.uk</p>
               <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">
-                No native Instagram feed is being faked here. The profile is real, but displaying
-                on-site posts requires approved Meta business access.
-              </p>
-              <p className="mt-3 text-xs leading-5 text-[var(--text-muted)]">
-                A live embedded feed can be enabled once Meta business access is connected.
+                A live embedded feed can be enabled once Meta business access is connected. For now, visit our profile directly to see our latest posts.
               </p>
             </div>
 
-            <div className="mt-5 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap gap-3">
               <Button href={instagramProfileUrl} variant="primary">
                 View on Instagram
               </Button>
