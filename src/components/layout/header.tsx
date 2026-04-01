@@ -14,6 +14,21 @@ export function Header() {
   const pathname = usePathname();
 
   useEffect(() => {
+    if (!mobileMenuOpen) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
 
@@ -32,10 +47,10 @@ export function Header() {
   }, [mobileMenuOpen]);
 
   return (
-    <header className="sticky top-0 z-[70] border-b border-[var(--border-subtle)] bg-white/88 shadow-[0_10px_35px_-32px_rgba(16,24,40,0.65)] backdrop-blur-xl">
+    <header className="sticky top-0 z-[90] border-b border-[var(--border-subtle)] bg-white/88 shadow-[0_10px_35px_-32px_rgba(16,24,40,0.65)] backdrop-blur-xl">
       <Container>
         <div className="header-line"></div>
-        <div className="relative flex h-20 items-center justify-between gap-3 lg:gap-6">
+        <div className="relative z-[95] flex h-20 items-center justify-between gap-3 lg:gap-6">
           <Link href="/" className="group inline-flex min-w-0 items-center gap-2 sm:gap-3 lg:gap-4">
             <span className="relative h-10 w-[124px] shrink-0 sm:h-11 sm:w-[152px] lg:h-12 lg:w-[176px]">
               <PlaceholderImage
@@ -81,8 +96,9 @@ export function Header() {
 
           <button
             type="button"
-            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-[var(--border-subtle)] bg-white/80 text-[var(--text-main)] transition-colors duration-200 hover:border-[var(--brand-red)] hover:text-[var(--brand-red)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-red)]/55 focus-visible:ring-offset-2 md:hidden"
+            className="relative z-[110] inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-[var(--border-subtle)] bg-white/80 text-[var(--text-main)] transition-colors duration-200 hover:border-[var(--brand-red)] hover:text-[var(--brand-red)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-red)]/55 focus-visible:ring-offset-2 md:hidden"
             aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation-panel"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             onClick={() => setMobileMenuOpen((open) => !open)}
           >
@@ -108,10 +124,13 @@ export function Header() {
               <button
                 type="button"
                 aria-label="Close menu overlay"
-                className="fixed inset-0 z-[75] bg-black/30 md:hidden"
+                className="fixed inset-0 z-[85] bg-black/30 md:hidden"
                 onClick={() => setMobileMenuOpen(false)}
               />
-              <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-[80] md:hidden">
+              <div
+                id="mobile-navigation-panel"
+                className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-[100] md:hidden"
+              >
                 <div className="max-h-[calc(100vh-7rem)] overflow-y-auto rounded-xl border border-[var(--border-subtle)] bg-white p-4 shadow-[0_20px_38px_-24px_rgba(16,24,40,0.65)]">
                   <nav className="flex flex-col gap-2" aria-label="Mobile navigation">
                     {navItems.map((item) => (

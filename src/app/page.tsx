@@ -130,7 +130,7 @@ export default function Home() {
 
       <section className="section-light py-10 sm:py-12 lg:py-16">
         <Container>
-          <div className="network-stage">
+          <div className="network-stage network-stage-home">
             <div className="network-left">
               <Badge>Network and Coverage</Badge>
               <h2 className="section-title">Coverage you can trust, from local routes to global lanes.</h2>
@@ -138,7 +138,7 @@ export default function Home() {
                 SkyNet combines strong UK operations with established international gateways, helping businesses ship with confidence.
               </p>
 
-              <div className="network-map-frame">
+              <div className="network-map-frame network-map-frame-home">
                 <PlaceholderImage
                   src={placeholderAssets.networkMap}
                   fallbackSrc={placeholderAssets.fallback}
@@ -151,20 +151,20 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="network-right">
-              <div className="grid gap-3 sm:grid-cols-2">
+            <div className="network-right network-right-home">
+              <div className="network-stats-grid">
                 {credibilityStats.slice(0, 2).map((stat) => (
-                  <article key={stat.label} className="premium-card p-5">
+                  <article key={stat.label} className="premium-card network-stat-card p-5">
                     <p className="text-2xl font-semibold tracking-[-0.02em] text-[var(--text-main)]">{stat.value}</p>
                     <p className="mt-1 text-sm text-[var(--text-muted)]">{stat.label}</p>
                   </article>
                 ))}
               </div>
 
-              <div className="grid gap-3">
-                <article className="premium-card p-5">
+              <div className="network-card-stack">
+                <article className="premium-card network-hub-card p-5">
                   <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--brand-red)]">UK Hubs</p>
-                  <div className="mt-3 flex flex-wrap gap-2.5">
+                  <div className="network-chip-wrap mt-3">
                     {networkRegionalHubs.ukHubs.map((hub) => (
                       <span key={hub} className="hub-chip">
                         {hub}
@@ -173,9 +173,9 @@ export default function Home() {
                   </div>
                 </article>
 
-                <article className="premium-card p-5">
+                <article className="premium-card network-hub-card p-5">
                   <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--brand-red)]">Global Gateways</p>
-                  <div className="mt-3 flex flex-wrap gap-2.5">
+                  <div className="network-chip-wrap mt-3">
                     {networkRegionalHubs.globalGateways.map((hub) => (
                       <span key={hub} className="hub-chip">
                         {hub}

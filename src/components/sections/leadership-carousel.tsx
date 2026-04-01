@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PlaceholderImage } from '@/components/ui/placeholder-image';
 import { placeholderAssets } from '@/lib/placeholders';
 
@@ -15,11 +15,42 @@ interface LeadershipCarouselProps {
   profiles: Profile[];
 }
 
+const AUTO_ADVANCE_MS = 5500;
+
+function normalizeIndex(index: number, length: number) {
+  if (length === 0) {
+    return 0;
+  }
+
+  return ((index % length) + length) % length;
+}
+
 export function LeadershipCarousel({ profiles }: LeadershipCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [visibleCount, setVisibleCount] = useState(3);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [transitionsEnabled, setTransitionsEnabled] = useState(true);
+  const previousCloneCountRef = useRef(0);
+
+  const profileCount = profiles.length;
+  const cloneCount = Math.min(visibleCount, Math.max(profileCount, 1));
+  const activeIndex = normalizeIndex(currentIndex - cloneCount, profileCount);
+
+  const headClones = profileCount > 0 ? profiles.slice(-cloneCount) : [];
+  const tailClones = profileCount > 0 ? profiles.slice(0, cloneCount) : [];
+  const loopedProfiles = [...headClones, ...profiles, ...tailClones];
+
+  const resetToIndex = (nextIndex: number) => {
+    setTransitionsEnabled(false);
+    setCurrentIndex(nextIndex);
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        setTransitionsEnabled(true);
+      });
+    });
+  };
 
   // Detect screen size and set visible count
   useEffect(() => {
@@ -38,6 +69,24 @@ export function LeadershipCarousel({ profiles }: LeadershipCarouselProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    if (profileCount === 0) {
+      return;
+    }
+
+    const previousCloneCount = previousCloneCountRef.current;
+
+    setTransitionsEnabled(false);
+    setCurrentIndex((prev) => normalizeIndex(prev - previousCloneCount, profileCount) + cloneCount);
+    previousCloneCountRef.current = cloneCount;
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        setTransitionsEnabled(true);
+      });
+    });
+  }, [cloneCount, profileCount]);
+
   // Detect prefers-reduced-motion
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -53,25 +102,50 @@ export function LeadershipCarousel({ profiles }: LeadershipCarouselProps) {
 
   // Auto-advance carousel
   useEffect(() => {
-    if (isPaused || prefersReducedMotion) return;
+    if (isPaused || prefersReducedMotion || profileCount <= 1) {
+      return;
+    }
 
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % profiles.length);
-    }, 5500);
+      setCurrentIndex((prev) => prev + 1);
+    }, AUTO_ADVANCE_MS);
 
     return () => clearInterval(interval);
-  }, [isPaused, prefersReducedMotion, profiles.length]);
+  }, [isPaused, prefersReducedMotion, profileCount]);
+
+  useEffect(() => {
+    if (!prefersReducedMotion || profileCount === 0) {
+      return;
+    }
+
+    if (currentIndex < cloneCount) {
+      setCurrentIndex(currentIndex + profileCount);
+      return;
+    }
+
+    if (currentIndex >= profileCount + cloneCount) {
+      setCurrentIndex(currentIndex - profileCount);
+    }
+  }, [cloneCount, currentIndex, prefersReducedMotion, profileCount]);
 
   const goToPrevious = () => {
-    setCurrentIndex((prev) => (prev - 1 + profiles.length) % profiles.length);
+    if (profileCount <= 1) {
+      return;
+    }
+
+    setCurrentIndex((prev) => prev - 1);
   };
 
   const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % profiles.length);
+    if (profileCount <= 1) {
+      return;
+    }
+
+    setCurrentIndex((prev) => prev + 1);
   };
 
   const goToSlide = (index: number) => {
-    setCurrentIndex(index);
+    setCurrentIndex(index + cloneCount);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -97,40 +171,62 @@ export function LeadershipCarousel({ profiles }: LeadershipCarouselProps) {
       <div className="overflow-hidden">
         <div
           className="flex"
+          onTransitionEnd={() => {
+            if (prefersReducedMotion || profileCount === 0) {
+              return;
+            }
+
+            if (currentIndex < cloneCount) {
+              resetToIndex(currentIndex + profileCount);
+              return;
+            }
+
+            if (currentIndex >= profileCount + cloneCount) {
+              resetToIndex(currentIndex - profileCount);
+            }
+          }}
           style={{
             transform: `translateX(calc(-${currentIndex} * (100% / ${visibleCount})))`,
-            transition: prefersReducedMotion ? 'none' : 'transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1)',
+            transition:
+              prefersReducedMotion || !transitionsEnabled
+                ? 'none'
+                : 'transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1)',
           }}
         >
-          {profiles.map((profile, idx) => (
-            <div
-              key={profile.name}
-              className="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-2 sm:px-3"
-              role="group"
-              aria-roledescription="slide"
-              aria-label={`${idx + 1} of ${profiles.length}`}
-              aria-hidden={idx < currentIndex || idx >= currentIndex + visibleCount}
-            >
-              <article className="leader-card-carousel group">
-                <div className="leader-media-carousel">
-                  <PlaceholderImage
-                    src={`/${profile.image}`}
-                    fallbackSrc={placeholderAssets.fallback}
-                    alt={profile.name}
-                    fill
-                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 48vw, 32vw"
-                    className="leader-portrait transition-transform duration-500 group-hover:scale-[1.02]"
-                  />
-                  <div className="leader-overlay" />
-                </div>
-                <div className="leader-body-carousel">
-                  <p className="leader-name-carousel">{profile.name}</p>
-                  <p className="leader-role-carousel">{profile.role}</p>
-                  <p className="leader-bio-carousel">{profile.bio}</p>
-                </div>
-              </article>
-            </div>
-          ))}
+          {loopedProfiles.map((profile, idx) => {
+            const profilePosition = normalizeIndex(idx - cloneCount, profileCount);
+            const isVisible = idx >= currentIndex && idx < currentIndex + visibleCount;
+
+            return (
+              <div
+                key={`${profile.name}-${idx}`}
+                className="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-2 sm:px-3"
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`${profilePosition + 1} of ${profileCount}`}
+                aria-hidden={!isVisible}
+              >
+                <article className="leader-card-carousel group">
+                  <div className="leader-media-carousel">
+                    <PlaceholderImage
+                      src={`/${profile.image}`}
+                      fallbackSrc={placeholderAssets.fallback}
+                      alt={profile.name}
+                      fill
+                      sizes="(max-width: 640px) 90vw, (max-width: 1024px) 48vw, 32vw"
+                      className="leader-portrait transition-transform duration-500 group-hover:scale-[1.02]"
+                    />
+                    <div className="leader-overlay" />
+                  </div>
+                  <div className="leader-body-carousel">
+                    <p className="leader-name-carousel">{profile.name}</p>
+                    <p className="leader-role-carousel">{profile.role}</p>
+                    <p className="leader-bio-carousel">{profile.bio}</p>
+                  </div>
+                </article>
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -159,12 +255,12 @@ export function LeadershipCarousel({ profiles }: LeadershipCarouselProps) {
               key={idx}
               onClick={() => goToSlide(idx)}
               className={`h-2 w-2 rounded-full transition-all ${
-                idx === currentIndex
+                idx === activeIndex
                   ? 'w-6 bg-[var(--brand-red)]'
                   : 'bg-[var(--border-subtle)] hover:bg-[var(--text-muted)]'
               }`}
               aria-label={`Slide ${idx + 1}`}
-              aria-selected={idx === currentIndex}
+              aria-selected={idx === activeIndex}
               role="tab"
               type="button"
             />
