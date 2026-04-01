@@ -16,6 +16,9 @@ interface LeadershipCarouselProps {
 }
 
 const AUTO_ADVANCE_MS = 5500;
+const AUTO_TRANSITION_MS = 600;
+const MANUAL_TRANSITION_MS = 220;
+const MANUAL_TRANSITION_BUFFER_MS = 120;
 
 function normalizeIndex(index: number, length: number) {
   if (length === 0) {
@@ -31,7 +34,10 @@ export function LeadershipCarousel({ profiles }: LeadershipCarouselProps) {
   const [visibleCount, setVisibleCount] = useState(3);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [transitionsEnabled, setTransitionsEnabled] = useState(true);
+  const [transitionDurationMs, setTransitionDurationMs] = useState(AUTO_TRANSITION_MS);
   const previousCloneCountRef = useRef(0);
+  const manualTransitionTimeoutRef = useRef<number | null>(null);
+  const manualTransitionTokenRef = useRef(0);
 
   const profileCount = profiles.length;
   const cloneCount = Math.min(visibleCount, Math.max(profileCount, 1));
@@ -50,6 +56,23 @@ export function LeadershipCarousel({ profiles }: LeadershipCarouselProps) {
         setTransitionsEnabled(true);
       });
     });
+  };
+
+  const beginManualTransition = () => {
+    manualTransitionTokenRef.current += 1;
+    const token = manualTransitionTokenRef.current;
+
+    setTransitionDurationMs(MANUAL_TRANSITION_MS);
+
+    if (manualTransitionTimeoutRef.current !== null) {
+      window.clearTimeout(manualTransitionTimeoutRef.current);
+    }
+
+    manualTransitionTimeoutRef.current = window.setTimeout(() => {
+      if (manualTransitionTokenRef.current === token) {
+        setTransitionDurationMs(AUTO_TRANSITION_MS);
+      }
+    }, MANUAL_TRANSITION_MS + MANUAL_TRANSITION_BUFFER_MS);
   };
 
   // Detect screen size and set visible count
@@ -100,6 +123,14 @@ export function LeadershipCarousel({ profiles }: LeadershipCarouselProps) {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (manualTransitionTimeoutRef.current !== null) {
+        window.clearTimeout(manualTransitionTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // Auto-advance carousel
   useEffect(() => {
     if (isPaused || prefersReducedMotion || profileCount <= 1) {
@@ -107,6 +138,7 @@ export function LeadershipCarousel({ profiles }: LeadershipCarouselProps) {
     }
 
     const interval = setInterval(() => {
+      setTransitionDurationMs(AUTO_TRANSITION_MS);
       setCurrentIndex((prev) => prev + 1);
     }, AUTO_ADVANCE_MS);
 
@@ -133,6 +165,7 @@ export function LeadershipCarousel({ profiles }: LeadershipCarouselProps) {
       return;
     }
 
+    beginManualTransition();
     setCurrentIndex((prev) => prev - 1);
   };
 
@@ -141,10 +174,12 @@ export function LeadershipCarousel({ profiles }: LeadershipCarouselProps) {
       return;
     }
 
+    beginManualTransition();
     setCurrentIndex((prev) => prev + 1);
   };
 
   const goToSlide = (index: number) => {
+    beginManualTransition();
     setCurrentIndex(index + cloneCount);
   };
 
@@ -190,7 +225,7 @@ export function LeadershipCarousel({ profiles }: LeadershipCarouselProps) {
             transition:
               prefersReducedMotion || !transitionsEnabled
                 ? 'none'
-                : 'transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1)',
+                : `transform ${transitionDurationMs}ms cubic-bezier(0.2, 0.8, 0.2, 1)`,
           }}
         >
           {loopedProfiles.map((profile, idx) => {
